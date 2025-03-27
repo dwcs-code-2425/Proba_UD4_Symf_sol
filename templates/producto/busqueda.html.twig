@@ -1,0 +1,102 @@
+{% extends 'base.html.twig' %}
+{% block title %}
+    Buscar Productos
+{% endblock %}
+{% block body %}
+    <div class="container mt-5">
+        <div class="card shadow-lg">
+            <div class="card-header bg-primary text-white">
+                <h3 class="text-center mb-0">
+                    Buscar Productos
+                </h3>
+            </div>
+            <div class="card-body">
+                <form method="GET" action="{{ path('producto_buscar') }}">
+                    <div class="row">
+                        <!-- Campo de búsqueda -->
+                        <div class="col-md-6 mb-3">
+                            <label for="termino" class="form-label">
+                                Nombre del Producto
+                            </label>
+                            <input type="text" class="form-control" id="termino" name="termino" placeholder="Ingrese el nombre" required></div>
+                            <!-- Selector de categoría -->
+                            <div class="col-md-4 mb-3">
+                                <label for="categoria" class="form-label">
+                                    Categoría
+                                </label>
+                                <select class="form-select" id="categoria" name="categoria">
+                                    <option value="">
+                                        Todas las categorías
+                                    </option>
+                                    {% if categorias is defined %}
+                                    
+                                    {% for categoria in categorias %}
+                                        <option value="{{ categoria.id }}">
+                                            {{ categoria.nombre }}
+                                        </option>
+                                    {% endfor %}
+                                {% endif %}
+                                </select>
+                            </div>
+                            <!-- Botón de búsqueda -->
+                            <div class="col-md-2 d-grid">
+                                <button type="submit" class="btn btn-success mt-4">
+                                    Buscar
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            {% if productos is defined %}
+                <!-- Mostrar resultados -->
+                <div class="mt-4">
+                    {% if productos is not empty %}
+                        <h4 class="text-center">
+                            Resultados de la búsqueda
+                        </h4>
+                        <div class="row">
+                            {% for producto in productos %}
+                                <div class="col-md-4">
+                                    <div class="card mb-3 shadow-sm">
+                                        <div class="card-body">
+                                            <h5 class="card-title">
+                                                {{ producto.nombre }}
+                                            </h5>
+                                            <p class="card-text text-muted">
+                                                {{ producto.descripcion }}
+                                            </p>
+                                            <p class="card-text">
+                                                <strong>
+                                                    Precio:
+                                                </strong>
+                                                $
+                                                {{ producto.precio }}
+                                            </p>
+                                            <p class="card-text">
+                                                <strong>
+                                                    Stock:
+                                                </strong>
+                                                {{ producto.stock }}
+                                            </p>
+                                            <p class="card-text">
+                                                <strong>
+                                                    Categoría:
+                                                </strong>
+                                                {{ producto.categoria.nombre }}
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        <div class="alert alert-warning text-center mt-3">
+                            No se encontraron productos con esos criterios.
+                        </div>
+                    {% endif %}
+                </div>
+            {% endif %}
+        </div>
+    {% endblock %}
+    
